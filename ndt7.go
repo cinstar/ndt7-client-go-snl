@@ -75,6 +75,9 @@ type LatestMeasurements struct {
 
 // Client is a ndt7 client.
 type Client struct {
+	// ExperimentName is a string command line argument
+	ExperimentName string
+
 	// ClientName is the name of the software running ndt7 tests. It's set by
 	// NewClient; you may want to change this value.
 	ClientName string
@@ -169,6 +172,10 @@ func (c *Client) doConnect(ctx context.Context, serviceURL string) (*websocket.C
 	q.Set("client_name", c.ClientName)
 	q.Set("client_os", runtime.GOOS)
 	q.Set("client_version", c.ClientVersion)
+	if c.ExperimentName != "" {
+		q.Set("experiment_name", c.ExperimentName)
+	}
+	URL.RawQuery = q.Encode()
 	URL.RawQuery = q.Encode()
 	headers := http.Header{}
 	headers.Add("Sec-WebSocket-Protocol", params.SecWebSocketProtocol)

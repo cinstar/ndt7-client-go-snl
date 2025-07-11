@@ -139,6 +139,7 @@ var (
 	flagService  = flagx.URL{}
 	flagUpload   = flag.Bool("upload", true, "perform upload measurement")
 	flagDownload = flag.Bool("download", true, "perform download measurement")
+	flagExperimentName = flag.String("experiment-name", "", "The experiment_name sent to the server")
 )
 
 func init() {
@@ -216,6 +217,7 @@ func main() {
 			Timeout:  *flagTimeout,
 			ClientFactory: func() *ndt7.Client {
 				c := ndt7.NewClient(*flagClientName, ClientVersion)
+				c.ExperimentName = *flagExperimentName
 				c.ServiceURL = flagService.URL
 				c.Server = *flagServer
 				c.Scheme = flagScheme.Value

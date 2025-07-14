@@ -83,6 +83,7 @@ var (
 	flagService  = flagx.URL{}
 	flagUpload   = flag.Bool("upload", true, "perform upload measurement")
 	flagDownload = flag.Bool("download", true, "perform download measurement")
+	flagExperimentName = flag.String("experiment-name", "", "The experiment_name sent to the server")
 
 	// The flag values below implement rate limiting at the recommended rate
 	flagPeriodMean = flag.Duration("period_mean", 6 * time.Hour, "mean period, e.g. 6h, between speed tests, when running in daemon mode")
@@ -246,7 +247,7 @@ func main() {
 				c.Dialer.TLSClientConfig = &tls.Config{
 					InsecureSkipVerify: *flagNoVerify,
 				}
-
+				c.ExperimentName = *flagExperimentName
 				return c
 			},
 		},
